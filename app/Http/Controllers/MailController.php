@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Template;
 use App\Models\Subscriber;
 use Illuminate\Http\Request;
+use App\Models\NewsletterLog;
 use App\Jobs\SendNewsletterJob;
 
 class MailController extends Controller
@@ -29,7 +30,7 @@ class MailController extends Controller
         foreach ($subscribers as $subscriber) {
             SendNewsletterJob::dispatch($subscriber, $template);
         }
-        \App\Models\NewsletterLog::create([
+        NewsletterLog::create([
             'title' => $template->title,
             'template_id' => $template->id,
             'sent_to' => $request->send_to ?? 'all',
