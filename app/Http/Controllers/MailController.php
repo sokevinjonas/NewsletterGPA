@@ -18,12 +18,23 @@ class MailController extends Controller
     {
         $request->validate([
             'template_id' => 'required|exists:templates,id',
+            'send_to' => 'nullable|in:all,week',
         ]);
         $template = Template::findOrFail($request->template_id);
-        $subscribers = Subscriber::all();
+        $query = Subscriber::query();
+        if ($request->send_to === 'week') {
+            $query->where('created_at', '>=', now()->startOfWeek());
+        }
+        $subscribers = $query->get();
         foreach ($subscribers as $subscriber) {
             SendNewsletterJob::dispatch($subscriber, $template);
         }
-        return back()->with('success', 'Newsletter envoyée à tous les abonnés.');
+        \App\Models\NewsletterLog::create([
+            'title' => $template->title,
+            'template_id' => $template->id,
+            'sent_to' => $request->send_to ?? 'all',
+            'count' => $subscribers->count(),
+        ]);
+        return response()->json(['success' => true]);
     }
 }
