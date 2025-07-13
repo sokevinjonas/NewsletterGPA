@@ -13,13 +13,13 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        Dashboard
+                        Tableau de bord
                     </x-nav-link>
                     <x-nav-link :href="route('subscribers.index')" :active="request()->routeIs('subscribers.index')">
                         Abonnés
                     </x-nav-link>
                     <x-nav-link :href="route('templates.index')" :active="request()->routeIs('templates.index')">
-                        Templates
+                        Modèles
                     </x-nav-link>
                     <div x-data="newsletterMenu()" class="relative">
                         <button @click="open = !open" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -29,7 +29,7 @@
                         <div x-show="open" @click.away="open = false" class="absolute z-50 mt-2 w-80 bg-white border border-gray-200 rounded shadow-lg">
                             <div class="flex justify-between items-center px-4 py-2 border-b">
                                 <span class="font-semibold">Newsletters envoyées</span>
-                                <button @click="showModal = true" class="bg-blue-500 hover:bg-blue-700 text-white text-xs px-2 py-1 rounded">Envoyer nouveau mail</button>
+                                <button @click="showModal = true" class="bg-blue-500 hover:bg-blue-700 text-white text-xs px-2 py-1 rounded">Nouvelle newsletter</button>
                             </div>
                             <div class="max-h-60 overflow-y-auto">
                                 <template x-for="mail in paginatedMails()" :key="mail.id">
@@ -52,7 +52,7 @@
                                 <h3 class="text-lg font-semibold mb-4">Envoyer une newsletter</h3>
                                 <form @submit.prevent="sendNewsletter">
                                     <div class="mb-4">
-                                        <label class="block text-gray-700">Sélectionner un template</label>
+                                        <label class="block text-gray-700">Sélectionner un modèle</label>
                                         <select x-model="selectedTemplate" @change="updateTemplateContent" class="mt-1 block w-full rounded border-gray-300 shadow-sm" required>
                                             <option value="">-- Choisir --</option>
                                             <template x-for="template in templates" :key="template.id">
@@ -67,7 +67,7 @@
                                     <div class="mb-4">
                                         <label class="block text-gray-700">Envoyer à</label>
                                         <select x-model="sendTo" class="mt-1 block w-full rounded border-gray-300 shadow-sm" required>
-                                            <option value="all">Tout le monde</option>
+                                            <option value="all">Tous les abonnés</option>
                                             <option value="week">Inscrits cette semaine</option>
                                         </select>
                                     </div>

@@ -39,7 +39,7 @@ function newsletterMenu() {
             this.mails = data.data.map((log) => ({
                 id: log.id,
                 title: log.title,
-                date: new Date(log.created_at).toLocaleString(),
+                date: new Date(log.created_at).toLocaleString("fr-FR"),
             }));
         },
         async sendNewsletter() {
