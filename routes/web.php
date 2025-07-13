@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\NewsletterApiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\TemplateController;
@@ -23,6 +24,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/newsletter/send', [MailController::class, 'showSendForm'])->name('newsletter.send.form');
     Route::post('/newsletter/send', [MailController::class, 'send'])->name('newsletter.send');
+});
+
+// API pour Alpine.js (templates et logs)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/api/templates', [NewsletterApiController::class, 'templates']);
+    Route::get('/api/newsletter-logs', [NewsletterApiController::class, 'logs']);
 });
 
 Route::middleware('auth')->group(function () {
